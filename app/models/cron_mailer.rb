@@ -5,10 +5,10 @@ class CronMailer < ActionMailer::Base
 
 	def info_message(recipients, subject, message, sent_at= Time.now)
 		@recipients = recipients
-		@from = 'cronjob@allourideas.org'
+		@from = 'cronjob@vm-006.casci.rit.edu'
 		@subject ="[All Our Ideas] " +  subject
 		@sent_on = sent_at
 		@body[:message] = message
-      		@body[:host] = "www.allourideas.org"
+      		@body[:host] = "vm-006.casci.rit.edu"
 	end
 end

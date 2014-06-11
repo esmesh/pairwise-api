@@ -7,11 +7,11 @@ ActionMailer::Base.smtp_settings = {
   :address        => "smtp.sendgrid.net",
   :port           => "25",
   :authentication => :plain,
-  :domain	  => "allourideas.org",
+  :domain	  => "vm-006.casci.rit.edu",
   :user_name      => ENV['SENDGRID_USERNAME'],
   :password       => ENV['SENDGRID_PASSWORD']
 }
 
 DO_NOT_REPLY = "donotreply@example.com"
-CRON_EMAIL = ["cron@allourideas.org"]
-ERRORS_EMAIL = ["errors@allourideas.org"]
+CRON_EMAIL = ["cron@vm-006.casci.rit.edu"]
+ERRORS_EMAIL = ["errors@vm-006.casci.rit.edu"]

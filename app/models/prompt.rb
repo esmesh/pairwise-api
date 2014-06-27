@@ -39,6 +39,10 @@ class Prompt < ActiveRecord::Base
     u.voted_for?(left_choice) || u.voted_for?(right_choice)
   end
   
+  def left_choice_title(prompt = nil)
+    left_choice.title
+  end
+  
   def left_choice_text(prompt = nil)
     left_choice.data
   end
@@ -47,6 +51,9 @@ class Prompt < ActiveRecord::Base
     left_choice.active? and right_choice.active?
   end
   
+  def right_choice_title(prompt = nil)
+    right_choice.title
+  end
   
   def right_choice_text(prompt = nil)
     right_choice.data

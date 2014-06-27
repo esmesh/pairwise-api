@@ -38,8 +38,10 @@ class PromptsController < InheritedResources::Base
 
     respond_to do |format|
       if !successful.nil?
-        format.xml { render :xml => object.to_xml(:procs => optional_information , :methods => [:left_choice_text, :right_choice_text]), :status => :ok }
-        format.json { render :json => object.to_json(:procs => optional_information, :methods => [:left_choice_text, :right_choice_text]), :status => :ok }
+        format.xml { render :xml => object.to_xml(:procs => optional_information , :methods => [:left_choice_text, :right_choice_text,
+                                                 :left_choice_title, :right_choice_title]), :status => :ok }
+        format.json { render :json => object.to_json(:procs => optional_information, :methods => [:left_choice_text, :right_choice_text,
+                                                 :left_choice_title, :right_choice_title]), :status => :ok }
       else
         format.xml { render :xml => @prompt.to_xml, :status => :unprocessable_entity }
         format.json { render :json => @prompt.to_xml, :status => :unprocessable_entity }
@@ -75,8 +77,10 @@ class PromptsController < InheritedResources::Base
     end
     respond_to do |format|
       if !successful.nil?
-        format.xml { render :xml => response.to_xml(:procs => optional_information , :methods => [:left_choice_text, :right_choice_text]), :status => :ok }
-        format.json { render :json => response.to_json(:procs => optional_information, :methods => [:left_choice_text, :right_choice_text]), :status => :ok }
+        format.xml { render :xml => response.to_xml(:procs => optional_information , :methods => [:left_choice_text, :right_choice_text,
+                                                 :left_choice_title, :right_choice_title]), :status => :ok }
+        format.json { render :json => response.to_json(:procs => optional_information, :methods => [:left_choice_text, :right_choice_text,
+                                                 :left_choice_title, :right_choice_title]), :status => :ok }
       else
         format.xml { render :xml => @prompt.to_xml, :status => :unprocessable_entity }
         format.json { render :json => @prompt.to_xml, :status => :unprocessable_entity }
@@ -88,8 +92,10 @@ class PromptsController < InheritedResources::Base
     @question = current_user.questions.find(params[:question_id])
     @prompt = @question.prompts.find(params[:id], :include => [:left_choice ,:right_choice ])
     show! do |format|
-      format.xml { render :xml => @prompt.to_xml(:methods => [:left_choice_text, :right_choice_text])}
-      format.json { render :json => @prompt.to_json(:methods => [:left_choice_text, :right_choice_text])}
+      format.xml { render :xml => @prompt.to_xml(:methods => [:left_choice_text, :right_choice_text,
+                                                 :left_choice_title, :right_choice_title])}
+      format.json { render :json => @prompt.to_json(:methods => [:left_choice_text, :right_choice_text,
+                                                 :left_choice_title, :right_choice_title])}
     end
   end
 

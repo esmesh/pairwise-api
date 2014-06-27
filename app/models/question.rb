@@ -214,7 +214,7 @@ class Question < ActiveRecord::Base
             result.merge!({"future_prompt_id_#{offset}".to_sym => @future_prompt.id})
 
             ["left", "right"].each do |side|
-              ["text", "id"].each do |param|
+              ["text", "id", "title"].each do |param|
                 choice = (side == "left") ? @future_prompt.left_choice : @future_prompt.right_choice
                 param_val = (param == "text") ? choice.data : choice.id
   

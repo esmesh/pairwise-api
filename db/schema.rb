@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140625212521) do
+ActiveRecord::Schema.define(:version => 20140630124856) do
 
   create_table "appearances", :force => true do |t|
     t.integer  "voter_id"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20140625212521) do
     t.integer  "prompts_count",              :default => 0
     t.string   "data"
     t.integer  "creator_id"
+    t.string   "title"
   end
 
   add_index "choice_versions", ["choice_id"], :name => "index_choice_versions_on_choice_id"

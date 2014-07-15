@@ -26,6 +26,7 @@ class Question < ActiveRecord::Base
   has_many :exports
 
   attr_accessor :ideas
+  #, :upload
   after_create :create_choices_from_ideas
 
   attr_protected :votes_count, :inactive_choices_count, :choices_count,
@@ -48,9 +49,12 @@ class Question < ActiveRecord::Base
   def create_choices_from_ideas
     if ideas && ideas.any?
       ideas.each do |idea|
+        #Split idea in title and description
+        idea_title = idea.split(":").first
+        idea_desc = idea.split(":").last
         # all but last is considered part of batch create, so the
         # last one will fire things that only need to be run at the end
-        choices.create!(:creator => self.creator, :active => true, :title => idea.squish.strip, :data => idea.squish.strip + ' desc', :part_of_batch_create => idea != ideas.last, :question => self)
+        choices.create!(:creator => self.creator, :active => true, :title => idea_title.squish.strip, :data => idea_desc.squish.strip, :part_of_batch_create => idea != ideas.last, :question => self)
       end
     end
   end

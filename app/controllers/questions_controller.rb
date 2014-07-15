@@ -1,3 +1,5 @@
+require 'pry'
+require 'roo'
 class QuestionsController < InheritedResources::Base
   actions :all, :except => [ :show, :edit, :delete ]
   before_filter :authenticate
@@ -36,6 +38,7 @@ class QuestionsController < InheritedResources::Base
   def create
     logger.info "all params are #{params.inspect}"
     logger.info "vi is #{params['question']['visitor_identifier']} and local are #{params['question']['local_identifier']}."
+    
     if @question =
         current_user.create_question(
           params['question']['visitor_identifier'],

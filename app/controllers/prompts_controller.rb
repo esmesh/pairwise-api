@@ -22,7 +22,8 @@ class PromptsController < InheritedResources::Base
     optional_information = []
     if params[:next_prompt]
        begin
-           params[:next_prompt].merge!(:with_prompt => true) # We always want to get the next possible prompt
+           params[:next_prompt].merge!(:with_prompt => true)# We always want to get the next possible prompt
+           params[:next_prompt].merge!(:site_user_id => params[:vote]["site_user_id"])
            @question_optional_information = @question.get_optional_information(params[:next_prompt])
        rescue RuntimeError
 

@@ -64,6 +64,17 @@ class Choice < ActiveRecord::Base
     return true #so active record will save
   end
   
+  def dynamic_score(users = nil)
+    if users.nil?
+      filtered_wins = choice.votes.all(:conditions => {:site_user_id => users, :choice_id => self.id})
+      filtered_losses = choice.votes.all(:conditions => {:site_user_id => users, :loser_choice_id => self.id})
+    else
+      filtered_wins = choice.votes.all(:conditions => {:choice_id => self.id})
+      filtered_losses = choice.votes.all(:conditions => {:loser_choice_id => self.id})
+    end
+      (filtered_wins.to_f+1)/(filtered_wins+1+filtered_losses+1) * 100
+  end
+  
   def compute_score
     (wins.to_f+1)/(wins+1+losses+1) * 100
   end

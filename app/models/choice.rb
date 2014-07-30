@@ -72,7 +72,7 @@ class Choice < ActiveRecord::Base
       filtered_wins = choice.votes.all(:conditions => {:choice_id => self.id})
       filtered_losses = choice.votes.all(:conditions => {:loser_choice_id => self.id})
     end
-      (filtered_wins.to_f+1)/(filtered_wins+1+filtered_losses+1) * 100
+    (filtered_wins.to_f+1)/(filtered_wins+1+filtered_losses+1) * 100
   end
   
   def compute_score

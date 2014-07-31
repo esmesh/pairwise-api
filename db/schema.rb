@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140721205138) do
+ActiveRecord::Schema.define(:version => 20140731180941) do
 
   create_table "appearances", :force => true do |t|
     t.integer  "voter_id"
@@ -239,6 +239,7 @@ ActiveRecord::Schema.define(:version => 20140721205138) do
     t.string   "missing_response_time_exp", :default => ""
     t.boolean  "valid_record",              :default => true
     t.string   "validity_information"
+    t.integer  "site_user_id"
   end
 
   add_index "skips", ["prompt_id"], :name => "index_skips_on_prompt_id"

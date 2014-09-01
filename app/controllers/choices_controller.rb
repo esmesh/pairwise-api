@@ -1,3 +1,4 @@
+require 'pry'
 class ChoicesController < InheritedResources::Base
   respond_to :xml, :json
   actions :show, :index, :create, :update, :new
@@ -105,6 +106,14 @@ class ChoicesController < InheritedResources::Base
     respond_to do |format|
       format.xml { render :xml => @choice.to_xml(response_options) }
       format.json { render :json => @choice.to_json(response_options) }
+    end
+  end
+  
+  def dynamic_score
+    @choice = Choice.find(params[:choice_id])
+    users = params[:users]
+    respond_to do |format|
+      format.xml{ render :xml => {:value => @choice.dynamic_score(users)}.to_xml and return}
     end
   end
 

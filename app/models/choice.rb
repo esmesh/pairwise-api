@@ -1,3 +1,4 @@
+require 'pry'
 class Choice < ActiveRecord::Base
   acts_as_versioned :if_changed => [:title, :data, :creator_id, :question_id, :active]
   
@@ -66,13 +67,13 @@ class Choice < ActiveRecord::Base
   
   def dynamic_score(users = nil)
     if users.nil?
-      filtered_wins = choice.votes.all(:conditions => {:site_user_id => users, :choice_id => self.id})
-      filtered_losses = choice.votes.all(:conditions => {:site_user_id => users, :loser_choice_id => self.id})
+      filtered_wins = votes.all(:conditions => {:choice_id => self.id})
+      filtered_losses = votes.all(:conditions => {:loser_choice_id => self.id})
     else
-      filtered_wins = choice.votes.all(:conditions => {:choice_id => self.id})
-      filtered_losses = choice.votes.all(:conditions => {:loser_choice_id => self.id})
+      filtered_wins = votes.all(:conditions => {:site_user_id => users, :choice_id => self.id})
+      filtered_losses = votes.all(:conditions => {:site_user_id => users, :loser_choice_id => self.id})      
     end
-    (filtered_wins.to_f+1)/(filtered_wins+1+filtered_losses+1) * 100
+    (filtered_wins.count.to_f+1)/(filtered_wins.count+1+filtered_losses.count+1) * 100
   end
   
   def compute_score

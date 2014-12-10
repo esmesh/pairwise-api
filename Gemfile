@@ -4,7 +4,7 @@ source "http://gems.github.com"
 gem "pry"
 gem 'pry-debugger', '~> 0.2.3'
 gem 'roo', '~> 1.13.2'
-gem 'spreadsheet', '~> 0.9.7'
+gem 'spreadsheet', '0.9.8'
 gem "rake", "~> 0.9.2.2"
 gem "rdoc", "~> 3.12"
 gem "rails", "2.3.18"

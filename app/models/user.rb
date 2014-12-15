@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many :clicks, :class_name => "Click", :foreign_key => "site_id"
   
   def default_visitor
+    logger.info "User::default_visitor"
     visitors.find(:first, :conditions => {:identifier => 'owner'})
   end
   

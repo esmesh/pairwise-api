@@ -3,21 +3,16 @@
 
 development: &default
   adapter: mysql2
+  user: root
   database: rebirth_development
   pool: 5
   timeout: 5000
 
-test: &test
-  <<: *default
-  database: pairwise_test
-
-cucumber:
-  <<: *test
-
 production:
   <<: *default
-  database: pairwise_production
-  host: localhost
   username: root
   password: <% ENV['SQL_DB_PASSWORD'] %>
+  database: pairwise_production
+  #host: localhost
+  host: 127.0.0.1
 

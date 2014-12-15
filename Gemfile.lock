@@ -12,10 +12,6 @@ GEM
     activeresource (2.3.18)
       activesupport (= 2.3.18)
     activesupport (2.3.18)
-    airbrake (3.1.12)
-      activesupport
-      builder
-      json
     ambethia-smtp-tls (1.1.2)
     builder (3.0.0)
     coderay (1.1.0)
@@ -61,7 +57,6 @@ GEM
     mime-types (1.16)
     mock_redis (0.4.1)
     mysql2 (0.2.18)
-    newrelic_rpm (3.5.5.38)
     nokogiri (1.5.5)
     paperclip (2.3.1)
     pry (0.10.1)
@@ -117,7 +112,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  airbrake
   ambethia-smtp-tls (= 1.1.2)
   cucumber (= 1.1.0)
   cucumber-rails (= 0.3.2)
@@ -136,7 +130,6 @@ DEPENDENCIES
   mime-types (= 1.16)
   mock_redis (= 0.4.1)
   mysql2 (= 0.2.18)
-  newrelic_rpm
   paperclip (= 2.3.1)
   pry
   pry-debugger (~> 0.2.3)

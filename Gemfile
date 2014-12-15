@@ -8,7 +8,6 @@ gem 'spreadsheet', '0.9.8'
 gem "rake", "~> 0.9.2.2"
 gem "rdoc", "~> 3.12"
 gem "rails", "2.3.18"
-gem "airbrake", :require => 'airbrake/rails'
 gem 'libxml-ruby', :require => "libxml"
 gem "ambethia-smtp-tls", "1.1.2", :require => "smtp-tls"
 gem "paperclip", "2.3.1"
@@ -57,4 +56,3 @@ group :test, :cucumber do
   gem 'mock_redis', '0.4.1'
 end
 gem 'ey_config'
-gem "newrelic_rpm"

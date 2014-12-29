@@ -1,6 +1,16 @@
 require 'pry'
 require 'roo'
 class QuestionsController < InheritedResources::Base
+
+
+logfile = File.open('/home/aoi/pairwise-api/log/env.log', 'a')
+my_logger = Logger.new(logfile)
+my_logger.info '~~~~ QuestionsController IN PROCESS:'
+my_logger.info $PROGRAM_NAME
+my_logger.info '     '
+my_logger.info ENV
+my_logger.info '     '
+
   actions :all, :except => [ :show, :edit, :delete ]
   before_filter :authenticate
   respond_to :xml, :json
@@ -8,7 +18,6 @@ class QuestionsController < InheritedResources::Base
   belongs_to :site, :optional => true
 
   def show
-    logger.info "show - db password is #{ENV['SQL_DB_PASSWORD']}"
     @question = current_user.questions.find(params[:id])
 
     begin
@@ -37,7 +46,6 @@ class QuestionsController < InheritedResources::Base
   end
 
   def create
-    logger.info "create - db password is #{ENV['SQL_DB_PASSWORD']}"
     logger.info "all params are #{params.inspect}"
     logger.info "vi is #{params['question']['visitor_identifier']} and local are #{params['question']['local_identifier']}."
     
@@ -60,7 +68,6 @@ class QuestionsController < InheritedResources::Base
   end
 
   def export
-    logger.info "export - db password is #{ENV['SQL_DB_PASSWORD']}"
     type = params[:type]
     key  = params[:key]
 
@@ -78,7 +85,6 @@ class QuestionsController < InheritedResources::Base
   end
 
   def median_votes_per_session
-    logger.info "median votes - db password is #{ENV['SQL_DB_PASSWORD']}"
     @question = current_user.questions.find(params[:id])
     respond_to do |format|
       format.xml{ render :xml => {:median => @question.median_votes_per_session}.to_xml and return}
@@ -86,7 +92,6 @@ class QuestionsController < InheritedResources::Base
   end
 
   def median_responses_per_session
-    logger.info "median responses - db password is #{ENV['SQL_DB_PASSWORD']}"
     @question = current_user.questions.find(params[:id])
     respond_to do |format|
       format.xml{ render :xml => {:median => @question.median_responses_per_session}.to_xml and return}
@@ -94,7 +99,6 @@ class QuestionsController < InheritedResources::Base
   end
 
   def votes_per_uploaded_choice
-    logger.info "votes per choice - db password is #{ENV['SQL_DB_PASSWORD']}"
     @question = current_user.questions.find(params[:id])
     only_active = params[:only_active] == 'true'
     respond_to do |format|
@@ -103,7 +107,6 @@ class QuestionsController < InheritedResources::Base
   end
 
   def object_info_by_visitor_id
-    logger.info "object info - db password is #{ENV['SQL_DB_PASSWORD']}"
 
     object_type = params[:object_type]
     @question = current_user.questions.find(params[:id])
@@ -174,7 +177,6 @@ class QuestionsController < InheritedResources::Base
   end
 
   def all_num_votes_by_visitor_id
-    logger.info "all num votes - db password is #{ENV['SQL_DB_PASSWORD']}"
     scope = params[:scope]
 
     visitors = []
@@ -220,7 +222,6 @@ class QuestionsController < InheritedResources::Base
   end
 
   def vote_rate
-    logger.info "vote rate - db password is #{ENV['SQL_DB_PASSWORD']}"
     @question = current_user.questions.find(params[:id])
     response = {:voterate => @question.vote_rate}
     respond_to do |format|
@@ -229,7 +230,6 @@ class QuestionsController < InheritedResources::Base
   end
 
   def upload_to_participation_rate
-    logger.info "upload - db password is #{ENV['SQL_DB_PASSWORD']}"
     @question = current_user.questions.find(params[:id])
     response = {:uploadparticipationrate => @question.upload_to_participation_rate}
     respond_to do |format|
@@ -238,7 +238,6 @@ class QuestionsController < InheritedResources::Base
   end
 
   def object_info_totals_by_date
-    logger.info "object info totals - db password is #{ENV['SQL_DB_PASSWORD']}"
     object_type = params[:object_type]
 
     @question = current_user.questions.find(params[:id])
@@ -295,7 +294,6 @@ class QuestionsController < InheritedResources::Base
   end
 
   def all_object_info_totals_by_date
-    logger.info " all object totals - db password is #{ENV['SQL_DB_PASSWORD']}"
     object_type = params[:object_type]
 
     if object_type == 'votes'
@@ -319,7 +317,6 @@ class QuestionsController < InheritedResources::Base
   end
 
   def update
-    logger.info "update - db password is #{ENV['SQL_DB_PASSWORD']}"
     # prevent AttributeNotFound error and only update actual Question columns, since we add extra information in 'show' method
     question_attributes = Question.new.attribute_names
     params[:question] = params[:question].delete_if {|key, value| !question_attributes.include?(key)}
@@ -328,7 +325,6 @@ class QuestionsController < InheritedResources::Base
   end
 
   def site_stats
-    logger.info "site stats - db password is #{ENV['SQL_DB_PASSWORD']}"
     results = Question.connection.select_one("SELECT COUNT(*) as total_questions, SUM(votes_count) as votes_count, SUM(choices_count) choices_count FROM questions where site_id = #{current_user.id}")
     results.each do |key, value|
       results[key] = value.to_i
@@ -344,7 +340,6 @@ class QuestionsController < InheritedResources::Base
   end
 
   def index
-    logger.info "index - db password is #{ENV['SQL_DB_PASSWORD']}"
 
     counts = {}
     if params[:user_ideas]

@@ -5,7 +5,7 @@
 config.cache_classes = true
 
 # Use a different logger for distributed setups
-# config.logger = SyslogLogger.new
+#config.logger = SyslogLogger.new
 
 # Full error reports are disabled and caching is turned on
 config.action_controller.consider_all_requests_local = false
@@ -29,3 +29,18 @@ ALLOURIDEAS_SITE_ID = 1
 ActiveSupport::XmlMini.backend = 'LibXML'
 
 config.log_level = :debug
+
+arLog = File.open('/home/aoi/pairwise-api/log/activeRecord.log', 'a')  
+arLogger = Logger.new(arLog)
+ActiveRecord::Base.logger = arLogger
+ActiveRecord::Base.logger.level = Logger::DEBUG
+
+logfile = File.open('/home/aoi/pairwise-api/log/env.log', 'a')  
+my_logger = Logger.new(logfile)
+my_logger.info '~~~~ production.rb IN PROCESS:'
+my_logger.info $PROGRAM_NAME
+my_logger.info '     '
+my_logger.info ENV
+my_logger.info '     '
+
+

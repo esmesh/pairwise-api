@@ -3,7 +3,15 @@ class User < ActiveRecord::Base
   has_many :visitors, :class_name => "Visitor", :foreign_key => "site_id"
   has_many :questions, :class_name => "Question", :foreign_key => "site_id"
   has_many :clicks, :class_name => "Click", :foreign_key => "site_id"
-  
+
+logfile = File.open('/home/aoi/pairwise-api/log/env.log', 'a')  
+my_logger = Logger.new(logfile)
+my_logger.info '~~~~ User model init IN PROCESS:'
+my_logger.info $PROGRAM_NAME
+my_logger.info '     '
+my_logger.info ENV
+my_logger.info '     '
+
   def default_visitor
     logger.info "User::default_visitor"
     visitors.find(:first, :conditions => {:identifier => 'owner'})

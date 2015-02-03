@@ -4,12 +4,8 @@
 # heroku config:add GMAIL_EMAIL=dcroak@example.com GMAIL_PASSWORD=password
 
 ActionMailer::Base.smtp_settings = {
-  :address        => "smtp.sendgrid.net",
-  :port           => "25",
-  :authentication => :plain,
-  :domain	  => "pairwise.casci.rit.edu",
-  :user_name      => ENV['SENDGRID_USERNAME'],
-  :password       => ENV['SENDGRID_PASSWORD']
+  :address        => "smtp-server.rit.edu",
+  :port           => "25"
 }
 
 DO_NOT_REPLY = "donotreply@example.com"

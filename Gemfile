@@ -28,7 +28,6 @@ gem "delayed_job", "2.0.6"
 gem "redis", "~> 3.0.1"
 gem "test-unit", "1.2.3"
 
-gem "sendgrid", "0.1.4"
 gem "json_pure", "1.4.6"
 gem "rubaidh-google_analytics", "1.1.4", :require => "rubaidh/google_analytics"
 gem 'mysql2', '0.2.18'

@@ -9,5 +9,6 @@ todo
 !.keep
 .rvmrc
 .bundle
-bin/
-vendor/ruby
+bin/**
+vendor/**
+Gemfile.lock

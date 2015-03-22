@@ -8,7 +8,8 @@ gem 'spreadsheet', '0.9.8'
 gem "rake", "~> 0.9.2.2"
 gem "rdoc", "~> 3.12"
 gem "rails", "2.3.18"
-gem 'libxml-ruby', :require => "libxml"
+gem "airbrake", :require => 'airbrake/rails'
+gem "libxml-ruby", "2.2.2", :require => "libxml"
 gem "ambethia-smtp-tls", "1.1.2", :require => "smtp-tls"
 gem "paperclip", "2.3.1"
 gem "mime-types", "1.16",
@@ -28,8 +29,32 @@ gem "delayed_job", "2.0.6"
 gem "redis", "~> 3.0.1"
 gem "test-unit", "1.2.3"
 
+gem "sendgrid", "0.1.4"
 gem "json_pure", "1.4.6"
 gem "rubaidh-google_analytics", "1.1.4", :require => "rubaidh/google_analytics"
 gem 'mysql2', '0.2.18'
 
+group :cucumber do
+  gem 'cucumber', '1.1.0'
+  gem 'cucumber-rails', '0.3.2'
+  gem 'webrat', "0.5.3"
+  gem 'fakeweb', '1.2.5'
+end
+
+group :test do
+  gem "rspec", "~>1.3.1"
+  gem "rspec-rails", "1.3.4"
+  gem "shoulda", "~>2.10.1"
+  gem "jtrupiano-timecop", "0.2.1",
+    :require     => "timecop"
+  gem "fakeweb", "1.2.5"
+  gem "jferris-mocha", "0.9.5.0.1241126838",
+    :require     => "mocha"
+end
+
+group :test, :cucumber do
+  gem 'factory_girl', '1.2.3'
+  gem 'mock_redis', '0.4.1'
+end
 gem 'ey_config'
+gem "newrelic_rpm"

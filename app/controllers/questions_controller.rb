@@ -2,15 +2,6 @@ require 'pry'
 require 'roo'
 class QuestionsController < InheritedResources::Base
 
-
-logfile = File.open('/home/aoi/pairwise-api/log/env.log', 'a')
-my_logger = Logger.new(logfile)
-my_logger.info '~~~~ QuestionsController IN PROCESS:'
-my_logger.info $PROGRAM_NAME
-my_logger.info '     '
-my_logger.info ENV
-my_logger.info '     '
-
   actions :all, :except => [ :show, :edit, :delete ]
   before_filter :authenticate
   respond_to :xml, :json

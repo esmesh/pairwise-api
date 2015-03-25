@@ -1,5 +1,4 @@
 log/*
-tmp/**/*
 db/*.sqlite3
 public/system
 *.DS_Store
@@ -9,6 +8,3 @@ todo
 !.keep
 .rvmrc
 .bundle
-bin/**
-vendor/**
-Gemfile.lock

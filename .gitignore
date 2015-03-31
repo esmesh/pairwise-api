@@ -1,4 +1,7 @@
 log/*
+bin/*
+vendor/**
+Gemfile.lock
 db/*.sqlite3
 public/system
 *.DS_Store

@@ -10,14 +10,8 @@
 #   :path           => ":attachment/:id/:style.:extension",
 #   :s3_credentials => "#{RAILS_ROOT}/config/s3.yml",
 
-development: &default
+production: &default
   access_key_id: <%= ENV['S3_KEY'] %>
   secret_access_key: <%= ENV['S3_SECRET'] %>
   bucket: <%= ENV['S3_BUCKET'] %>
-
-test:
-  <<: *default
-
-production:
-  <<: *default
 

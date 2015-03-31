@@ -120,6 +120,7 @@ class Rails::Boot
     Rails::Initializer.run(:set_load_path)
   end
 end
+$stderr.puts ENV['RAILS_ENV']
 
 # All that for this:
 Rails.boot!

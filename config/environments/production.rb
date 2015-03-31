@@ -22,5 +22,3 @@ ALLOURIDEAS_SITE_ID = 1
 
 ActiveSupport::XmlMini.backend = 'LibXML'
 
-config.log_level = :debug
-

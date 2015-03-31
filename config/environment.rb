@@ -15,5 +15,8 @@ Rails::Initializer.run do |config|
   config.active_record.default_timezone = :utc
   config.action_mailer.delivery_method = :smtp
   #config.action_mailer.delivery_method = :sendmail
+  config.log_level = :debug
 end
 
+ActiveResource::Base.logger = Logger.new(STDERR)
+ActiveRecord::Base.logger = Logger.new(STDERR)

@@ -216,6 +216,8 @@ class Question < ActiveRecord::Base
 
             result.merge!({"future_appearance_id_#{offset}".to_sym => @future_appearance.lookup})
             result.merge!({"future_prompt_id_#{offset}".to_sym => @future_prompt.id})
+            Rails.logger.info("@future_appearance.lookup")
+            Rails.logger.info(@future_appearance.lookup)
 
             ["left", "right"].each do |side|
               ["text", "id", "title"].each do |param|

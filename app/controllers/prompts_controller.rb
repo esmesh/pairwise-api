@@ -17,14 +17,21 @@ class PromptsController < InheritedResources::Base
     
     vote_options = params[:vote] || {}
     vote_options.merge!(:prompt => @prompt, :question => @question)
+    
+    Rails.logger.info("Prompts Controller vote: vote_options")
+    Rails.logger.info(vote_options)
 
     successful = object= current_user.record_vote(vote_options)
     optional_information = []
+    Rails.logger.info("Prompts Controller vote: params[:next_prompt]")
+    Rails.logger.info(params[:next_prompt])
     if params[:next_prompt]
        begin
            params[:next_prompt].merge!(:with_prompt => true)# We always want to get the next possible prompt
            params[:next_prompt].merge!(:site_user_id => params[:vote]["site_user_id"])
            @question_optional_information = @question.get_optional_information(params[:next_prompt])
+          Rails.logger.info("Prompts Controller vote: @question_optional_information")
+          Rails.logger.info(@question_optional_information)
        rescue RuntimeError
 
            respond_to do |format|

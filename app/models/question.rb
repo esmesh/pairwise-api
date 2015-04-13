@@ -74,6 +74,8 @@ class Question < ActiveRecord::Base
   end
 
   def choose_prompt(options = {})
+    Rails.logger.info("Question choose_prompt - options:")
+    Rails.logger.info(options)
 
           # if there is one or fewer active choices, we won't be able to find a prompt
     if self.choices.size - self.inactive_choices_count <= 1 
@@ -178,7 +180,8 @@ class Question < ActiveRecord::Base
   end
 
   def get_optional_information(params)
-    Rails.logger.info("Question get_optional_information")
+    Rails.logger.info("Question get_optional_information - params:")
+    Rails.logger.info(params)
 
     return {} if params.nil?
 
@@ -548,8 +551,12 @@ class Question < ActiveRecord::Base
   end
 
   def pop_prompt_queue
+    Rails.logger.info("Question pop_prompt_queue - self.pq_key")
+    Rails.logger.info(self.pq_key)
     begin
        prompt_id = $redis.lpop(self.pq_key)
+       Rails.logger.info("Question pop_prompt_queue - prompt_id")
+       Rails.logger.info(prompt_id)
        prompt = prompt_id.nil? ? nil : Prompt.find(prompt_id.to_i)
     end until (prompt.nil? || prompt.active?)
     $redis.expire(self.pq_key, @@expire_prompt_cache_in_seconds)

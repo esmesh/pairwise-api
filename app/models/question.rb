@@ -180,9 +180,6 @@ class Question < ActiveRecord::Base
   end
 
   def get_optional_information(params)
-    Rails.logger.info("Question get_optional_information - params:")
-    Rails.logger.info(params)
-
     return {} if params.nil?
 
     result = {}
@@ -199,14 +196,10 @@ class Question < ActiveRecord::Base
         if last_appearance.nil?
           @prompt = choose_prompt(:algorithm => params[:algorithm])
           @appearance = current_user.record_appearance(visitor, @prompt)
-          Rails.logger.info("--Last appearance is nil, new one is:")
-          Rails.logger.info(@appearance)
         else
         #only display a new prompt and new appearance if the old prompt has not been voted on
           @appearance = last_appearance
           @prompt= @appearance.prompt
-          Rails.logger.info("--Use last appearance:")
-          Rails.logger.info(@appearance)
         end
 
         if params[:future_prompts]
@@ -217,13 +210,9 @@ class Question < ActiveRecord::Base
             if last_appearance.nil?
               @future_prompt = choose_prompt(:algorithm => params[:algorithm])
               @future_appearance = current_user.record_appearance(visitor, @future_prompt)
-              Rails.logger.info("--Create future appearance:")
-              Rails.logger.info(@future_appearance)
             else
               @future_appearance = last_appearance
               @future_prompt= @future_appearance.prompt
-              Rails.logger.info("--Use last appearance for future:")
-              Rails.logger.info(@future_appearance)
             end
 
             result.merge!({"future_appearance_id_#{offset}".to_sym => @future_appearance.lookup})
@@ -272,8 +261,6 @@ class Question < ActiveRecord::Base
 
       result.merge!(:average_votes => average.round) # round to 2 decimals
     end
-    Rails.logger.info("--Results")
-    Rails.logger.info(result)
     return result
   end
 
@@ -551,12 +538,8 @@ class Question < ActiveRecord::Base
   end
 
   def pop_prompt_queue
-    Rails.logger.info("Question pop_prompt_queue - self.pq_key")
-    Rails.logger.info(self.pq_key)
     begin
        prompt_id = $redis.lpop(self.pq_key)
-       Rails.logger.info("Question pop_prompt_queue - prompt_id")
-       Rails.logger.info(prompt_id)
        prompt = prompt_id.nil? ? nil : Prompt.find(prompt_id.to_i)
     end until (prompt.nil? || prompt.active?)
     $redis.expire(self.pq_key, @@expire_prompt_cache_in_seconds)

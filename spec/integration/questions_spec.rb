@@ -21,10 +21,10 @@ describe "Questions" do
     end
   end
 
-  describe "GET 'median_votes_per_session'" do
+  describe "GET 'median_votes_per_visitor'" do
     it "should return the median" do
       Factory.create(:vote, :question => @questions.first)
-      get_auth median_votes_per_session_question_path(@questions.first, :format => 'xml')
+      get_auth median_votes_per_visitor_question_path(@questions.first, :format => 'xml')
       response.should be_success
       response.body.should have_tag("median", :text => "1")
     end
@@ -291,17 +291,17 @@ describe "Questions" do
     end
   end
 
-  describe "GET 'median_responses_per_session'" do
+  describe "GET 'median_responses_per_visitor'" do
     before(:all) { truncate_all }
-    it "should return the median responses per session" do
+    it "should return the median responses per visitor" do
       q = Factory.create(:aoi_question, :site => @api_user)
-      get_auth median_responses_per_session_question_path(q, :format => 'xml')
+      get_auth median_responses_per_visitor_question_path(q, :format => 'xml')
       response.should be_success
       response.body.should have_tag("median[nil=true]", :text => "")
       Factory.create(:vote_new_user, :question => q)
       v = Factory.create(:vote_new_user, :question => q)
       Factory.create(:vote, :question => q, :voter => v.voter)
-      get_auth median_responses_per_session_question_path(q, :format => 'xml')
+      get_auth median_responses_per_visitor_question_path(q, :format => 'xml')
       response.should be_success
       response.body.should have_tag("median", :text => "1.5")
     end

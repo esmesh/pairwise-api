@@ -22,13 +22,13 @@ describe Question do
     @question.choices.active.reload.size.should == 2
   end
 
-  it "should report median votes per session" do
+  it "should report median votes per visitor" do
     aoiquestion = Factory.create(:aoi_question)
     prompt = aoiquestion.prompts.first
     Factory.create(:vote, :question => aoiquestion, :prompt => prompt)
     Factory.create(:vote, :question => aoiquestion, :prompt => prompt)
-    aoiquestion.votes_per_session.should == [{:voter_id => aoiquestion.creator.id, :total => 2}]
-    aoiquestion.median_votes_per_session.should == 2
+    aoiquestion.votes_per_visitor.should == [{:voter_id => aoiquestion.creator.id, :total => 2}]
+    aoiquestion.median_votes_per_visitor.should == 2
   end
 
   it "should create a new revision if modified" do
@@ -252,14 +252,14 @@ describe Question do
       @question.reload.prompts.count.should == 0
   end
 
-  context "median response per session" do
+  context "median response per visitor" do
     before(:all) do
       truncate_all
       @q = Factory.create(:aoi_question)
     end
 
     it "should properly calculate with no responses" do
-      @q.median_responses_per_session.should == nil
+      @q.median_responses_per_visitor.should == nil
     end
 
     it "should properly calculate with 2 sessions" do
@@ -267,7 +267,7 @@ describe Question do
       Factory.create(:vote_new_user, :question => @q)
       v = Factory.create(:vote_new_user, :question => @q)
       Factory.create(:vote, :question => @q, :voter => v.voter)
-      @q.median_responses_per_session.should == 1.5
+      @q.median_responses_per_visitor.should == 1.5
     end
 
     it "should properly calculate with 3 sessions" do
@@ -284,7 +284,7 @@ describe Question do
       v = Factory.create(:vote_new_user, :question => @q)
       3.times { Factory.create(:skip, :question => @q, :skipper => v.voter) }
       4.times { Factory.create(:vote, :question => @q, :voter => v.voter) }
-      @q.median_responses_per_session.should == 5
+      @q.median_responses_per_visitor.should == 5
     end
   end
 

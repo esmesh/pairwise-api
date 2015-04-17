@@ -75,17 +75,17 @@ class QuestionsController < InheritedResources::Base
     render :text => "Ok! Please wait for the response"
   end
 
-  def median_votes_per_session
+  def median_votes_per_visitor
     @question = current_user.questions.find(params[:id])
     respond_to do |format|
-      format.xml{ render :xml => {:median => @question.median_votes_per_session}.to_xml and return}
+      format.xml{ render :xml => {:median => @question.median_votes_per_visitor}.to_xml and return}
     end
   end
 
-  def median_responses_per_session
+  def median_responses_per_visitor
     @question = current_user.questions.find(params[:id])
     respond_to do |format|
-      format.xml{ render :xml => {:median => @question.median_responses_per_session}.to_xml and return}
+      format.xml{ render :xml => {:median => @question.median_responses_per_visitor}.to_xml and return}
     end
   end
 

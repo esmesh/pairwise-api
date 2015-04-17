@@ -1,15 +1,15 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :densities, :only => :index
   map.resources :visitors, :only => :index,
-                           :collection => {:objects_by_session_ids => :post},
+                           :collection => {:objects_by_visitor_ids => :post},
                            :member => {:votes => :get}
   map.resources :exports, :only => :show
   map.resources :questions, :except => [:edit, :destroy],
                             :member => {:object_info_totals_by_date => :get, 
 	  				:object_info_by_visitor_id => :get, 
-					    :median_votes_per_session => :get,
+					    :median_votes_per_visitor => :get,
               :vote_rate => :get,
-              :median_responses_per_session => :get,
+              :median_responses_per_visitor => :get,
               :votes_per_uploaded_choice => :get,
               :upload_to_participation_rate => :get,
                                         :export => :post} , 

@@ -45,22 +45,22 @@ class VisitorsController < InheritedResources::Base
     index!
   end
 
-  def objects_by_session_ids
-    session_ids = params[:session_ids]
+  def objects_by_visitor_ids
+    visitor_ids = params[:visitor_ids]
 
-    # reject any session_ids that have characters outside of [a-f0-9]
-    session_ids_query = session_ids.reject{|si| si.match(/[^a-f0-9]/)}.map{|si| "'#{si}'"}.join(',')
+    # reject any visitor_ids that have characters outside of [a-f0-9]
+    visitor_ids_query = visitor_ids.reject{|vi| vi.match(/[^a-f0-9]/)}.map{|vi| "'#{vi}'"}.join(',')
     vsql = "SELECT vi.identifier, count(*) as count_all
             FROM visitors vi
             LEFT JOIN votes vo ON (vi.id = vo.voter_id)
-            WHERE vi.identifier in (#{session_ids_query})
+            WHERE vi.identifier in (#{visitor_ids_query})
             AND vo.valid_record = 1
             AND vo.voter_id IS NOT NULL
             GROUP BY vo.voter_id"
     csql = "SELECT vi.identifier, count(*) as count_all
             FROM visitors vi
             LEFT JOIN choices c ON (vi.id = c.creator_id)
-            WHERE vi.identifier in (#{session_ids_query})
+            WHERE vi.identifier in (#{visitor_ids_query})
             AND c.creator_id IS NOT NULL
             GROUP BY c.creator_id"
     votes = Visitor.connection.select_rows(vsql)

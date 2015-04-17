@@ -64,12 +64,12 @@ class Question < ActiveRecord::Base
   end
 
   # returns array of hashes where each has has voter_id and total keys
-  def votes_per_session
+  def votes_per_visitor
     self.votes.find(:all, :select => 'voter_id, count(*) as total', :group => :voter_id).map { |v| {:voter_id => v.voter_id, :total => v.total.to_i} }
   end
 
-  def median_votes_per_session
-    totals = self.votes_per_session.map { |v| v[:total] }
+  def median_votes_per_visitor
+    totals = self.votes_per_visitor.map { |v| v[:total] }
     return median(totals)
   end
 
@@ -704,8 +704,8 @@ class Question < ActiveRecord::Base
     votes.count.to_f / uploaded_choices_count.to_f
   end
 
-  # a response is either a vote or a skip, get the median per session
-  def median_responses_per_session
+  # a response is either a vote or a skip, get the median per visitor
+  def median_responses_per_visitor
     median(Question.connection.select_values("
       SELECT COUNT(*) total FROM (
         (SELECT voter_id   vid FROM votes WHERE question_id = #{id})
@@ -716,21 +716,21 @@ class Question < ActiveRecord::Base
   end
 
   def upload_to_participation_rate
-    swp = sessions_with_participation
+    swp = visitors_with_participation
     return nil if swp == 0
-    sessions_with_uploaded_ideas.to_f / swp.to_f
+    visitors_with_uploaded_ideas.to_f / swp.to_f
   end
 
-  # total number of sessions that have uploaded an idea
-  def sessions_with_uploaded_ideas
+  # total number of visitors that have uploaded an idea
+  def visitors_with_uploaded_ideas
     choices.find(:all,
       :conditions => ["creator_id <> ?", creator_id],
       :group => :creator_id
     ).count
   end
 
-  # total sessions with at least one vote, skip, or uploaded idea
-  def sessions_with_participation
+  # total visitors with at least one vote, skip, or uploaded idea
+  def visitors_with_participation
     # only select votes that are valid because wikipedia project has new votes
     # marked as invalid and we want that to be effectively closed to updating this value.
     Question.connection.select_one("
@@ -745,17 +745,17 @@ class Question < ActiveRecord::Base
   end
 
   def vote_rate
-    tus = total_uniq_sessions
-    return nil if tus == 0
-    sessions_with_vote.to_f / tus.to_f
+    tuv = total_uniq_visitors
+    return nil if tuv == 0
+    visitors_with_vote.to_f / tuv.to_f
   end
 
-  def total_uniq_sessions
+  def total_uniq_visitors
     appearances.count(:select => "DISTINCT(voter_id)")
   end
 
-  # total number of sessions with at least one vote
-  def sessions_with_vote
+  # total number of visitors with at least one vote
+  def visitors_with_vote
     Question.connection.select_one("
       SELECT COUNT(DISTINCT(voter_id)) FROM votes WHERE votes.question_id = #{self.id}
     ").values.first
